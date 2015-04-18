@@ -1,12 +1,14 @@
 (page "index.html"
   (:require
-    [tailrecursion.hoplon.reload :refer [reload-all]]))
+   [tailrecursion.hoplon.reload :refer [reload-all]]
+   [tailrecursion.hoplon.util :refer [capitalize-name]]
+   [mons.table :refer [mons]]))
 
 (reload-all)
 
 ;; Initial trainer state
 (defc tname "")
-(defc tparty [])
+(defc tparty [(capitalize-name (rand-nth mons))])
 (defc= ready (and (not (empty? tname))
                   (not (empty? tparty))))
 
@@ -20,9 +22,21 @@
    (h1 "A Trainer's Progress")
 
    (h2 "Trainer")
-   (text "Name: ~{tname}")
+   (div :toggle (cell= (not (empty? tname)))
+        (text "Name: ~{tname}"))
+
+   ; If our trainer's name isn't set yet, we show an input form
    (div :toggle (cell= (empty? tname))
-     (input :id "name"
-            :type "text"
-            :value ""
-            :on-change #(reset! tname (val-id "name"))))))
+        (text "What's your trainer's name?")
+        (form
+         (input :id "name"
+                :type "text"
+                :value "")
+         (input :type "submit"
+                :value "To Adventure!"
+                :on-click #(reset! tname (val-id "name")))))
+
+                                        ;Now it's time to pick a party!
+   (h2 "Party")
+   (text "~{(first tparty)}")
+   ))
