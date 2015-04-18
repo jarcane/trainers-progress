@@ -32,15 +32,17 @@
 
 ;; Initial trainer state
 (defc tname "")
-(defc tparty [])
-(def starters [[(rand-nth mons) (inc (rand-int 10))]
-               [(rand-nth mons) (inc (rand-int 10))]
-               [(rand-nth mons) (inc (rand-int 10))]])
-(defc starter-choice "0")
+(defc tparty [[(rand-nth mons) (inc (rand-int 10))]])
+(defc journal [(str "The professor gave me a " (capitalize-name (first (first @tparty))) "! I'm off to adventure!")])
 
 (defc= ptparty (map #(apply get-stats %) tparty))
 (defc= ready (and (not (empty? tname))
                   (not (empty? tparty))))
+
+(with-init!
+  (with-interval 1000
+    (when ready
+      )))
 
 ;; Page template
 (html
@@ -66,12 +68,17 @@
                 :on-click #(reset! tname (val-id "name")))))
 
    ;; Now it's time to pick a party!
-   (h2 "Party")
-   
-   (div :toggle (cell= (not (empty? tparty)))
+   (div :toggle (cell= ready)
+        (h2 "Party")
         (ul
          (loop-tpl :bindings [mon ptparty]
                    (li (b (text "~{(:name mon)}, "))
                        (i (text "Lvl ~{(:lvl mon)} ~{(:type mon)} Animon"))
                        (text " - ATK ~{(:atk mon)}, DEF ~{(:def mon)}, HP ~{(:hp mon)}")))))
+
+   ;; The ongoing adventure log
+   (div :toggle (cell= ready)
+        (h2 "Journal")
+        (ul (loop-tpl :bindings [x journal]
+                      (li x))))
    ))
