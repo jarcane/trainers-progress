@@ -6,12 +6,6 @@
 
 (reload-all)
 
-;; Initial trainer state
-(defc tname "")
-(defc tparty [(rand-nth mons)])
-(defc= ready (and (not (empty? tname))
-                  (not (empty? tparty))))
-
 ;; Helper functions
 
 ; totals a string's character values
@@ -19,7 +13,7 @@
   (apply + (map #(.charCodeAt % 0) s)))
 
 ; Given a string containing a Name, returns a map containing that name's possible stats
-(defn get-stats [s]
+(defn get-stats [s lvl]
   (let [atk (+ 4 (mod (hash s) 16))
         def (+ 3 (mod (hash (reverse s)) 17))
         hp (quot (tot-str s) (+ atk def))
@@ -29,10 +23,18 @@
                2 "Water"
                3 "Fire"
                4 "Metal")]
-    {:atk atk
-     :def def
-     :hp  hp
+    {:name (capitalize-name s)
+     :lvl lvl
+     :atk (+ atk (quot lvl (inc (mod (hash s) 4))))
+     :def (+ def (quot lvl (inc (mod (hash (reverse s)) 5))))
+     :hp  (int (+ hp (* lvl (inc (/ (inc (mod (hash s) 9)) 10)))))
      :type type}))
+
+;; Initial trainer state
+(defc tname "")
+(defc tparty [[(rand-nth mons) (inc (rand-int 10))]])
+(defc= ready (and (not (empty? tname))
+                  (not (empty? tparty))))
 
 ;; Page template
 (html
@@ -59,6 +61,7 @@
 
    ;; Now it's time to pick a party!
    (h2 "Party")
-   (text "~{(capitalize-name (first tparty))} - ~{(get-stats (first tparty))}")
+   (text "~{(first tparty)}")
+   (text "~{(apply get-stats (first tparty))}")
   
    ))
