@@ -2,9 +2,28 @@
   (:require
     [tailrecursion.hoplon.reload :refer [reload-all]]))
 
-(reload-all 1000)
+(reload-all)
 
+;; Initial trainer state
+(defc tname "")
+(defc tparty [])
+(defc= ready (and (not (empty? tname))
+                  (not (empty? tparty))))
+
+
+;; Page template
 (html
-  (head)
+ (head
+  (title "A Trainer's Progress"))
+ 
   (body
-    (h1 "Hello, World!")))
+   (h1 "A Trainer's Progress")
+
+   (h2 "Trainer")
+   (text "Name: ~{tname}")
+   (br)
+   (text "Change name: ")
+   (input :id "name"
+          :type "text"
+          :value ""
+          :on-change #(reset! tname (val-id "name")))))
