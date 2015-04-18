@@ -8,10 +8,38 @@
 
 ;; Initial trainer state
 (defc tname "")
-(defc tparty [(capitalize-name (rand-nth mons))])
+(defc tparty [(rand-nth mons)])
 (defc= ready (and (not (empty? tname))
                   (not (empty? tparty))))
 
+;; Helper functions
+
+(defn tot-str [s]
+  (apply + (map #(.charCodeAt % 0) s)))
+(defn avg-str [s]
+  (quot (tot-str s)
+        (count s)))
+
+;; Name -> Map {:atk Number :def Number :hp Number :type String}
+; Given a string containing a Name, returns a map containing that name's possible stats
+(defn get-stats [s]
+  (let [avg (- (avg-str s) 96)
+        fc (- (.charCodeAt s 0) 96)
+        sc (- (.charCodeAt s 1) 96)
+        atk (quot (+ fc avg) 2)
+        def (quot (+ sc avg) 2)
+        hp (quot (tot-str s) (+ atk def))
+        type (case (mod (hash s) 6)
+               0 "Grazer"
+               1 "Forager"
+               2 "Scavenger"
+               3 "Hunter"
+               4 "Predator"
+               "Legendary")]
+    {:atk atk
+     :def def
+     :hp  hp
+     :type type}))
 
 ;; Page template
 (html
@@ -36,7 +64,18 @@
                 :value "To Adventure!"
                 :on-click #(reset! tname (val-id "name")))))
 
-                                        ;Now it's time to pick a party!
+   ;; Now it's time to pick a party!
    (h2 "Party")
-   (text "~{(first tparty)}")
+   (text "~{(capitalize-name (first tparty))} - ~{(get-stats (first tparty))}")
+
+   (h2 "Stats")
+   (let [statted (map get-stats mons)
+         maxes {:atk (reduce max (map :atk statted)) 
+                :def (reduce max (map :def statted))
+                :hp (reduce max (map :hp statted))}
+         mins {:atk (reduce min (map :atk statted))
+               :def (reduce min (map :def statted))
+               :hp (reduce min (map :hp statted))}]
+     (text "Mins: ~{mins}   Maxes: ~{maxes}")
+     )
    ))
