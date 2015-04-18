@@ -14,13 +14,10 @@
 
 ;; Helper functions
 
+; totals a string's character values
 (defn tot-str [s]
   (apply + (map #(.charCodeAt % 0) s)))
-(defn avg-str [s]
-  (quot (tot-str s)
-        (count s)))
 
-;; Name -> Map {:atk Number :def Number :hp Number :type String}
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s]
   (let [atk (+ 4 (mod (hash s) 16))
