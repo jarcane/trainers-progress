@@ -45,8 +45,7 @@
 (defc battling? false)
 
 (defc= ptparty (map #(apply get-stats %) tparty))
-(defc= ready (and (not (empty? tname))
-                  (not (empty? tparty))))
+(defc= ready (not (empty? tname)))
 
 ;; Game Logic
 (defn start-battle []
@@ -55,8 +54,7 @@
     ;;(loop [player (get-stats (rand-nth tparty))
       ;;     enemy (get-stats (rand-nth mons))]
   ;;))
-  (swap! journal conslim "Fought a thing!")
-  )
+  (swap! journal conslim "Fought a thing!"))
 
 (defn rnd-event []
   (swap! journal conslim "Did a thing!"))
@@ -67,7 +65,7 @@
 ;; Main Game Loop
 (with-init!
   (with-interval 1000
-    (when ready
+    (when @ready
       (case (rand-int 4)
         (0 1) (start-battle)
         (2) (rnd-event)
