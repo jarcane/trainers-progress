@@ -67,34 +67,7 @@
 
    ;; Now it's time to pick a party!
    (h2 "Party")
-   (div :toggle (cell= (empty? tparty))
-        (text "Choose your starting Animon: ")
-        (label
-         (input
-          :type "radio"
-          :click #(reset! starter-choice @%)
-          :checked (cell= (= "0" starter-choice))
-          :name "radio-group"
-          :value "0")
-         (capitalize-name ((starters 0) 0)))
-        (label
-         (input
-          :type "radio"
-          :click #(reset! starter-choice @%)
-          :checked (cell= (= "1" starter-choice))
-          :name "radio-group"
-          :value "1")
-         (capitalize-name ((starters 1) 0)))
-        (label
-         (input
-          :type "radio"
-          :click #(reset! starter-choice @%)
-          :checked (cell= (= "2" starter-choice))
-          :name "radio-group"
-          :value "2")
-         (capitalize-name ((starters 2) 0)))
-        (button :on-click #(swap! tparty conj (nth starters (str @starter-choice))) "Choose!")
-        )
+   
    (div :toggle (cell= (not (empty? tparty)))
         (ul
          (loop-tpl :bindings [mon ptparty]
