@@ -12,6 +12,13 @@
 (defn tot-str [s]
   (apply + (map #(.charCodeAt % 0) s)))
 
+; Pushes an item to a list and returns only the first x of the list
+(defn conslim [lst x]
+  (let [nlst (cons x lst)]
+    (if (> (count nlst) 30)
+      (take 30 nlst)
+      nlst)))
+
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s lvl]
   (let [atk (+ 4 (mod (hash s) 16))
@@ -47,14 +54,14 @@
     ;;(loop [player (get-stats (rand-nth tparty))
       ;;     enemy (get-stats (rand-nth mons))]
   ;;))
-  (swap! journal #(cons "Fought a thing!" %))
+  (swap! journal conslim "Fought a thing!")
   )
 
 (defn rnd-event []
-  (swap! journal #(cons "Did a thing!" %)))
+  (swap! journal conslim "Did a thing!"))
 
 (defn gym []
-  (swap! journal #(cons "Fought a lot of things!" %)))
+  (swap! journal conslim "Fought a lot of things!" ))
 
 ;; Main Game Loop
 (with-init!
