@@ -34,15 +34,36 @@
 (defc tname "")
 (defc tparty [[(rand-nth mons) (inc (rand-int 10))]])
 (defc journal [(str "The professor gave me a " (capitalize-name (first (first @tparty))) "! I'm off to adventure!")])
+(defc battling? false)
 
 (defc= ptparty (map #(apply get-stats %) tparty))
 (defc= ready (and (not (empty? tname))
                   (not (empty? tparty))))
 
+;; Game Logic
+(defn start-battle []
+  ;;(do
+    ;;(swap! battling? not)
+    ;;(loop [player (get-stats (rand-nth tparty))
+      ;;     enemy (get-stats (rand-nth mons))]
+  ;;))
+  (swap! journal #(cons "Fought a thing!" %))
+  )
+
+(defn rnd-event []
+  (swap! journal #(cons "Did a thing!" %)))
+
+(defn gym []
+  (swap! journal #(cons "Fought a lot of things!" %)))
+
+;; Main Game Loop
 (with-init!
   (with-interval 1000
     (when ready
-      )))
+      (case (rand-int 4)
+        (0 1) (start-battle)
+        (2) (rnd-event)
+        (3) (gym)))))
 
 ;; Page template
 (html
