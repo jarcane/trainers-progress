@@ -23,19 +23,15 @@
 ;; Name -> Map {:atk Number :def Number :hp Number :type String}
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s]
-  (let [avg (- (avg-str s) 96)
-        fc (- (.charCodeAt s 0) 96)
-        sc (- (.charCodeAt s 1) 96)
-        atk (+ 4 (mod (hash s) 16))
+  (let [atk (+ 4 (mod (hash s) 16))
         def (+ 3 (mod (hash (reverse s)) 17))
         hp (quot (tot-str s) (+ atk def))
-        type (case (mod (hash s) 6)
-               0 "Grazer"
-               1 "Forager"
-               2 "Scavenger"
-               3 "Hunter"
-               4 "Predator"
-               "Legendary")]
+        type (case (mod (hash s) 5)
+               0 "Wood"
+               1 "Earth"
+               2 "Water"
+               3 "Fire"
+               4 "Metal")]
     {:atk atk
      :def def
      :hp  hp
