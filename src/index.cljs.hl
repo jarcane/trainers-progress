@@ -41,6 +41,7 @@
 (defc tname "")
 (defc tparty [[(rand-nth mons) (inc (rand-int 10))]])
 (defc journal [(str "The professor gave me a " (capitalize-name (first (first @tparty))) "! I'm off to adventure!")])
+(defc anidex [(get-in @tparty [0 0])])
 (defc battling? false)
 
 (defc= ptparty (map #(apply get-stats %) tparty))
@@ -82,7 +83,11 @@
 
    (h2 "Trainer")
    (div :toggle (cell= (not (empty? tname)))
-        (text "Name: ~{tname}"))
+        (text "Name: ~{tname}")
+        (br)
+        (text "Anidex: ~{(count anidex)}")
+        (br)
+        (text "ID #: ~{(hash tname)}"))
 
    ; If our trainer's name isn't set yet, we show an input form
    (div :toggle (cell= (empty? tname))
