@@ -1,6 +1,8 @@
-# trainers-progress
+# A Trainer's Progress
 
-A Hoplon project designed to...well, that part is up to you.
+An idler/incremental game inspired by the "monster trainer" genre.
+
+Created for Ludum Dare 32
 
 ## Dependencies
 
@@ -22,7 +24,7 @@ A Hoplon project designed to...well, that part is up to you.
 
 ## License
 
-Copyright © 2015, **Your Name Goes Here**
+Copyright © 2015, **John S. Berry III**
 
 [1]: https://github.com/tailrecursion/boot
 [2]: https://github.com/technomancy/leiningen
