@@ -21,9 +21,8 @@
 
    (h2 "Trainer")
    (text "Name: ~{tname}")
-   (br)
-   (text "Change name: ")
-   (input :id "name"
-          :type "text"
-          :value ""
-          :on-change #(reset! tname (val-id "name")))))
+   (div :toggle (cell= (empty? tname))
+     (input :id "name"
+            :type "text"
+            :value ""
+            :on-change #(reset! tname (val-id "name"))))))
