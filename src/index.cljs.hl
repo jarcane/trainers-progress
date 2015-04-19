@@ -54,11 +54,11 @@
 (defn level-up [mon]
     (get-stats (lower-case (:name mon)) (inc (:lvl mon))))
 
-(defn get-damage [attr defr]
-  (int (+ (/ (:lvl attr) 5)
+(defn get-damage [attr defr plyr?]
+  (int (+ (/ (:lvl attr) 10)
           (/ (:atk attr) (:def defr))
           (* (:lvl attr) (+ .5 (rand)))
-          1)))
+          (if plyr? (/ (:lvl attr) 5) 1))))
 
 (defn hurt-it [vic dam]
   (assoc vic :currhp (- (:currhp vic) dam)))
@@ -118,8 +118,8 @@
       (swap! tparty cons6 (assoc @enemy :currhp (:hp @enemy)))
       (reset! battlelog '())
       (reset! battling? false))
-    :else (let [damage (get-damage @player @enemy)
-                edamage (get-damage @enemy @player)]
+    :else (let [damage (get-damage @player @enemy true)
+                edamage (get-damage @enemy @player false)]
             (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
             (swap! enemy hurt-it damage)
             (swap! battlelog cons5 (str (:name @enemy) " hit for " edamage))
@@ -153,11 +153,11 @@
     (cond
       @battling? (continue-battle)
       (and @ready
-           (not @battling?)) (case (rand-int 5)
-                               (0 1) (start-battle)
-                               (2) (rnd-event)
-                               (3) (gym)
-                               (4) (do
+           (not @battling?)) (case (rand-int 8)
+                               (0 1 2) (start-battle)
+                               (3 4) (rnd-event)
+                               (5) (gym)
+                               (6 7) (do
                                      (swap! journal cons30 "Rearranged my party")
                                      (swap! tparty shuffle))))))
 

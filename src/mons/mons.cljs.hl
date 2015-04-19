@@ -23,10 +23,11 @@
              "Gone fishing..."
              "Wow I'm hungry, should've packed a lunch"
              "Legs got tired, had to stop for a rest"
-             "I though I saw a dragon but it was just an airplane"
+             "I thought I saw a dragon but it was just an airplane"
              "Found a loose Aniball in the grass, but it just had a rock in it"
              "Can't run in this deep snow"
-             "Who the heck lays out a city like this?"])
+             "Who the heck lays out a city like this?"
+             "There's just so much blood ..."])
 
 (def mons ["abyssiniangelfish"
            "abyssiniant"
