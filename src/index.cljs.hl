@@ -48,10 +48,14 @@
      :def (+ def (quot lvl (inc (mod (hash (reverse s)) 5))))
      :hp  hplvld
      :currhp hplvld
-     :type type}))
+     :type type
+     :kills 0}))
 
 (defn level-up [mon]
-  (get-stats (lower-case (:name mon)) (inc (:lvl mon))))
+  (if (= (:kills mon)
+         (:lvl mon))
+    (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
+    (assoc mon :kills (inc (:kills mon)))))
 
 (defn get-damage [attr defr]
   (int (+ (/ (:lvl attr) 5)
@@ -107,6 +111,7 @@
     (do
       (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
       (swap! anidex conj (:name @enemy))
+      (swap! tparty #(cons (level-up (first %) (rest %))))
       (reset! battlelog '())
       (reset! battling? false))
     (< 0 (:currhp @enemy) (int (* (:hp @enemy) .1)))
@@ -132,7 +137,7 @@
 
 ;; Main Game Loop
 (with-init!
-  (with-interval 100
+  (with-interval 500
     (cond
       @battling? (continue-battle)
       (and @ready
