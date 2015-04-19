@@ -23,13 +23,6 @@
 (def cons5 (partial conslim 5))
 (def cons6 (partial conslim 6))
 
-(defn conjlim [lim vec x]
-  (let [nvec (conj vec x)]
-    (if (> (count nvec) lim)
-      (subvec nvec 0 lim)
-      nvec)))
-(def conj6 (partial conjlim 6))
-
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s lvl]
   (let [atk (+ 4 (mod (hash s) 16))
@@ -52,7 +45,7 @@
      :kills 0}))
 
 (defn level-up [mon]
-  (if (>= (:kills mon) (:lvl mon))
+  (if (>= (:kills mon) (quot (:lvl mon) 2))
     (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
     (assoc mon :kills (inc (:kills mon)))))
 
