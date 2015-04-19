@@ -115,8 +115,8 @@
           (reset! battlelog '())
           (reset! battling? false))
         (do
-          (reset! player (first @tparty))
           (swap! tparty rest)
+          (reset! player (first @tparty))
           (swap! battlelog cons5 (str "Sent out " (:name @player))))))
     (<= (:currhp @enemy) 0)
     (do
@@ -163,7 +163,7 @@
 
 ;; Main Game Loop
 (with-init!
-  (with-interval 1000
+  (with-interval 500
     (cond
      @battling? (continue-battle)
      (and @ready
