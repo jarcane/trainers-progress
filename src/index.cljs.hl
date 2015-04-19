@@ -45,7 +45,7 @@
      :kills 0}))
 
 (defn level-up [mon]
-  (if (>= (:kills mon) (:lvl mon))
+  (if (>= (:kills mon) (quot (:lvl mon) 2))
     (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
     (assoc mon :kills (inc (:kills mon)))))
 
@@ -58,17 +58,18 @@
           (pair? "Water" "Fire")
           (pair? "Fire" "Metal")
           (pair? "Metal" "Wood"))
-      1.5
+      2
       (or (pair? "Wood" "Fire")
           (pair? "Fire" "Earth")
           (pair? "Earth" "Metal")
           (pair? "Metal" "Water")
           (pair? "Water" "Wood"))
-      0.75
+      0.5
       :else 1)))
 
 (defn get-damage [attr defr plyr?]
-  (int (* (+ (/ (:atk attr) (:def defr))
+  (int (* (+ (/ (:lvl attr) 10)
+             (/ (:atk attr) (:def defr))
              (* (:lvl attr) (+ .5 (rand)))
              (if plyr? (/ (:lvl attr) 5) 1))
           (type-bonus attr defr))))
@@ -78,7 +79,7 @@
 
 ;; Initial trainer state
 (defc tname "")
-(defc tparty [(get-stats (rand-nth mons) 5)])
+(defc tparty [(get-stats (rand-nth mons) (inc (rand-int 10)))])
 (defc journal [(str "The professor gave me a " (:name (first @tparty)) "! I'm off to adventure!")])
 (defc anidex #{(:name (first @tparty))})
 (defc battling? false)
@@ -93,13 +94,13 @@
 (defc= ready (not (empty? tname)))
 (defc= master (if (and (= badges 8)
                        beat-final)
-                "- Master Trainer!"
+                ". Master Trainer!"
                 ""))
 
 ;; Game Logic
 (defn start-battle []
   (reset! player (first @tparty))
-  (reset! enemy (get-stats (rand-nth mons) (max 1 (+ @avg-lvl (- 3 (rand-int 7))))))
+  (reset! enemy (get-stats (rand-nth mons) (inc (int (* @avg-lvl (+ .8 (rand .4)))))))
   (reset! battling? true)
   (swap! battlelog cons5 (str "Sent out " (:name @player))))
 
@@ -145,7 +146,7 @@
 (defn gym []
   (cond
     (< @badges 8)
-    (if (> @avg-lvl (* (inc @badges) 10))
+    (if (> @avg-lvl (* (inc @badges) 20))
       (do
         (swap! badges inc)
         (swap! journal cons30 "Passed my gym test and got a badge!"))
@@ -162,7 +163,7 @@
 
 ;; Main Game Loop
 (with-init!
-  (with-interval 10
+  (with-interval 500
     (cond
      @battling? (continue-battle)
      (and @ready
