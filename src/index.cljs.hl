@@ -130,18 +130,36 @@
   (swap! journal cons30 (rand-nth events)))
 
 (defn gym []
-  (swap! journal cons30 "Fought a lot of things!"))
+  (cond
+    (< @badges 8)
+    (if (> @avg-lvl (* (inc @badges) 20))
+      (do
+        (swap! badges inc)
+        (swap! journal cons30 "Passed my gym test and got a badge!"))
+      (swap! journal cons30 "Tried to take my gym test and failed!"))
+    (and (= @badges 8)
+         (not @beat-final))
+    (if (> @avg-lvl 100)
+      (do
+        (reset! beat-final true)
+        (swap! journal cons30 "I passed my final trainer's exam!"))
+      (swap! journal cons30 "I failed my final. Back to studying I guess."))
+    :else (swap! journal cons30 "Checked out the local gym for some practice."))
+  )
 
 ;; Main Game Loop
 (with-init!
-  (with-interval 500
+  (with-interval 1000
     (cond
       @battling? (continue-battle)
       (and @ready
-           (not @battling?)) (case (rand-int 4)
+           (not @battling?)) (case (rand-int 5)
                                (0 1) (start-battle)
                                (2) (rnd-event)
-                               (3) (gym)))))
+                               (3) (gym)
+                               (4) (do
+                                     (swap! journal cons30 "Rearranged my party")
+                                     (swap! tparty shuffle))))))
 
 ;; Page template
 (html
