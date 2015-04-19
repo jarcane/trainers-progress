@@ -45,10 +45,9 @@
      :kills 0}))
 
 (defn level-up [mon]
-  (if (>= (:kills mon) (quot (:lvl mon) 4))
+  (if (>= (:kills mon) (:lvl mon))
     (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
-    (assoc mon :kills (inc (:kills mon))))
-  )
+    (assoc mon :kills (inc (:kills mon)))))
 
 (defn type-bonus [attk defr]
   (let [pair? (fn [type1 type2] (and (= type1 (:type attk))
@@ -100,7 +99,7 @@
 ;; Game Logic
 (defn start-battle []
   (reset! player (first @tparty))
-  (reset! enemy (get-stats (rand-nth mons) (max 1 (+ @avg-lvl (- 2 (rand-int 7))))))
+  (reset! enemy (get-stats (rand-nth mons) (max 1 (+ @avg-lvl (- 3 (rand-int 7))))))
   (reset! battling? true)
   (swap! battlelog cons5 (str "Sent out " (:name @player))))
 
