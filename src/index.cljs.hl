@@ -23,6 +23,13 @@
 (def cons5 (partial conslim 5))
 (def cons6 (partial conslim 6))
 
+(defn conjlim [lim vec x]
+  (let [nvec (conj vec x)]
+    (if (> (count nvec) lim)
+      (subvec nvec 0 lim)
+      nvec)))
+(def conj6 (partial conjlim 6))
+
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s lvl]
   (let [atk (+ 4 (mod (hash s) 16))
@@ -43,6 +50,9 @@
      :currhp hplvld
      :type type}))
 
+(defn level-up [mon]
+  (get-stats (lower-case (:name mon)) (inc (:lvl mon))))
+
 (defn get-damage [attr defr]
   (int (+ (/ (:lvl attr) 5)
           (/ (:atk attr) (:def defr))
@@ -55,9 +65,10 @@
 ;; Initial trainer state
 (defc tname "")
 (defc tparty [(get-stats (rand-nth mons) (inc (rand-int 10)))])
-(defc journal [(str "The professor gave me a " (capitalize-name (first (first @tparty))) "! I'm off to adventure!")])
+(defc journal [(str "The professor gave me a " (:name (first @tparty)) "! I'm off to adventure!")])
 (defc anidex #{(:name (first @tparty))})
 (defc battling? false)
+(defc dead? false)
 (defc player {})
 (defc enemy {})
 (defc battlelog '())
@@ -75,17 +86,26 @@
 ;; Game Logic
 (defn start-battle []
   (reset! player (first @tparty))
-  (reset! enemy (get-stats (rand-nth mons) (int (* @avg-lvl (+ .8 (rand .4))))))
-  (reset! battling? true))
+  (reset! enemy (get-stats (rand-nth mons) (inc (int (* @avg-lvl (+ .8 (rand .4)))))))
+  (reset! battling? true)
+  (swap! battlelog cons5 (str "Sent out " (:name @player))))
 
 (defn continue-battle []
   (cond
     (<= (:currhp @player) 0)
     (do
-      (swap! journal cons30 "Oh no! I was defeated! I blacked out!")
-      (swap! journal cons30 "Woke up at the Anihospital")
-      (reset! battling? false)
-      (reset! battlelog '()))
+      (swap! battlelog cons5 (str "Oh no! " (:name @player) " was killed!"))
+      (swap! tparty rest)
+      (if (empty? @tparty)
+        (do
+          (swap! journal cons30 (str "I ran out of Animon and was eaten by the " (:name @enemy) ". "
+                                     "Reload the browser to try again."))
+          (reset! dead? true)
+          (reset! battling? false))
+        (do
+          (reset! player (first @tparty))
+          (swap! tparty rest)
+          (swap! battlelog cons5 (str "Sent out " (:name @tparty))))))
     (<= (:currhp @enemy) 0)
     (do
       (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
@@ -96,7 +116,7 @@
     (do
       (swap! journal cons30 (str "I caught a " (:name @enemy) "!"))
       (swap! anidex conj (:name @enemy))
-      (swap! tparty cons6 (assoc @enemy :currhp (:hp @enemy)))
+      (swap! tparty conj6 (assoc @enemy :currhp (:hp @enemy)))
       (reset! battlelog '())
       (reset! battling? false))
     :else (let [damage (get-damage @player @enemy)
@@ -104,8 +124,7 @@
             (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
             (swap! enemy hurt-it damage)
             (swap! battlelog cons5 (str (:name @enemy) " hit for " edamage))
-            (swap! player hurt-it edamage)
-            )
+            (swap! player hurt-it edamage))
     ))
 
 (defn rnd-event []
@@ -119,10 +138,12 @@
   (with-interval 1000
     (cond
       @battling? (continue-battle)
-      (and @ready (not @battling?)) (case (rand-int 4)
-                                      (0 1) (start-battle)
-                                      (2) (rnd-event)
-                                      (3) (gym))
+      (and @ready
+           (not @battling?)
+           (not @dead?)) (case (rand-int 4)
+                           (0 1) (start-battle)
+                           (2) (rnd-event)
+                           (3) (gym))
       ;:else (swap! journal cons30 "Something Strange Happened")
       )))
 
@@ -144,7 +165,7 @@
         (br)
         (text "Badges: ~{badges} ~{master}")
         (br)
-        (text "ID #: ~{(hash tname)}"))
+        (text "ID #: ~{(mod (hash tname) 1000000)}"))
 
    ; If our trainer's name isn't set yet, we show an input form
    (div :toggle (cell= (empty? tname))
