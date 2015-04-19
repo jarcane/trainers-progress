@@ -64,33 +64,36 @@
 
 ;; Game Logic
 (defn start-battle []
-  (do
-    (reset! player (first ptparty))
-    (reset! enemy (get-stats (rand-nth mons) (+ avg-lvl (- (rand-int 8) 4))))
-    (reset! battling? true)
-    (loop [x 5]
-      (if (= 0 x)
-        (swap! journal cons30 "Beat the thing!")
-        (do
-          (swap! battlelog cons5 "Battling the thing!")
-          (recur (dec x)))))
-    (reset! battling? false))
-  )
+  (reset! player (first @ptparty))
+  (reset! enemy (get-stats (rand-nth mons) (inc (rand-int 10))))
+  (reset! battling? true))
+
+(defn continue-battle []
+  (if (<= (:currhp @enemy) 0)
+    (do
+      (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
+      (reset! battling? false))
+    (let [damage (rand-int 100)]
+      (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
+      (swap! enemy update-in [:currhp] (- (:currhp @enemy) damage)))
+    ))
 
 (defn rnd-event []
   (swap! journal cons30 "Did a thing!"))
 
 (defn gym []
-  (swap! journal cons30 "Fought a lot of things!" ))
+  (swap! journal cons30 "Fought a lot of things!"))
 
 ;; Main Game Loop
 (with-init!
   (with-interval 1000
-    (when (and @ready (not @battling?))
-      (case (rand-int 4)
-        (0 1) (start-battle)
-        (2) (rnd-event)
-        (3) (gym)))))
+    (cond
+      @battling? (continue-battle)
+      (and @ready (not @battling?)) (case (rand-int 4)
+                                      (0 1) (start-battle)
+                                      (2) (rnd-event)
+                                      (3) (gym))
+      :else (swap! journal cons30 "Something Strange Happened"))))
 
 ;; Page template
 (html
@@ -143,6 +146,8 @@
              (br)
              (progress :value (:currhp @player) :max (:hp @player))
              )
+        (ul (loop-tpl :bindings [log battlelog]
+                  (li log)))
         )
 
    ;; The ongoing adventure log
