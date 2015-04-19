@@ -52,7 +52,9 @@
      :kills 0}))
 
 (defn level-up [mon]
-    (get-stats (lower-case (:name mon)) (inc (:lvl mon))))
+  (if (>= (:kills mon) (:lvl mon))
+    (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
+    (assoc mon :kills (inc (:kills mon)))))
 
 (defn get-damage [attr defr plyr?]
   (int (+ (/ (:lvl attr) 10)
