@@ -158,6 +158,7 @@
        (0 1 2) (start-battle)
        (3 4) (rnd-event)
        (5) (gym)
+       (6) (when (not (= 1 (count @tparty)))
              (swap! journal cons30 "Rearranged my party")
              (swap! tparty shuffle))))))
 
