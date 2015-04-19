@@ -45,7 +45,7 @@
      :kills 0}))
 
 (defn level-up [mon]
-  (if (>= (:kills mon) (quot (:lvl mon) 2))
+  (if (>= (:kills mon) (quot (:lvl mon) 4))
     (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
     (assoc mon :kills (inc (:kills mon)))))
 
@@ -165,7 +165,7 @@
 
 ;; Main Game Loop
 (with-init!
-  (with-interval 10
+  (with-interval 1000
     (cond
      @battling? (continue-battle)
      (and @ready
