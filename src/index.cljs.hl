@@ -64,7 +64,7 @@
 (defc badges 0)
 (defc beat-final false)
 
-(defc= avg-lvl (quot (reduce + (map :level tparty))
+(defc= avg-lvl (quot (reduce + 0 (map #(:lvl %) tparty))
                      (count tparty)))
 (defc= ready (not (empty? tname)))
 (defc= master (if (and (= badges 8)
@@ -75,27 +75,37 @@
 ;; Game Logic
 (defn start-battle []
   (reset! player (first @tparty))
-  (reset! enemy (get-stats (rand-nth mons) (inc (rand-int 10))))
+  (reset! enemy (get-stats (rand-nth mons) (int (* @avg-lvl (+ .8 (rand .4))))))
   (reset! battling? true))
 
 (defn continue-battle []
-  (cond (<= (:currhp @enemy) 0)
-        (do
-          (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
-          (swap! anidex conj (:name @enemy))
-          (reset! battlelog '())
-          (reset! battling? false))
-        (< 0 (:currhp @enemy) (int (* (:hp @enemy) .1)))
-        (do
-          (swap! journal cons30 (str "I caught a " (:name @enemy) "!"))
-          (swap! anidex conj (:name @enemy))
-          (swap! tparty cons6 (assoc @enemy :currhp (:hp @enemy)))
-          (reset! battlelog '())
-          (reset! battling? false))
-        :else (let [damage (get-damage @player @enemy)]
-                (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
-                (swap! enemy hurt-it damage)
-                )
+  (cond
+    (<= (:currhp @player) 0)
+    (do
+      (swap! journal cons30 "Oh no! I was defeated! I blacked out!")
+      (swap! journal cons30 "Woke up at the Anihospital")
+      (reset! battling? false)
+      (reset! battlelog '()))
+    (<= (:currhp @enemy) 0)
+    (do
+      (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
+      (swap! anidex conj (:name @enemy))
+      (reset! battlelog '())
+      (reset! battling? false))
+    (< 0 (:currhp @enemy) (int (* (:hp @enemy) .1)))
+    (do
+      (swap! journal cons30 (str "I caught a " (:name @enemy) "!"))
+      (swap! anidex conj (:name @enemy))
+      (swap! tparty cons6 (assoc @enemy :currhp (:hp @enemy)))
+      (reset! battlelog '())
+      (reset! battling? false))
+    :else (let [damage (get-damage @player @enemy)
+                edamage (get-damage @enemy @player)]
+            (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
+            (swap! enemy hurt-it damage)
+            (swap! battlelog cons5 (str (:name @enemy) " hit for " edamage))
+            (swap! player hurt-it edamage)
+            )
     ))
 
 (defn rnd-event []
@@ -150,6 +160,7 @@
    ;; Now it's time to pick a party!
    (div :toggle (cell= ready)
         (h2 "Party")
+        (text "Party Level: ~{avg-lvl}")
         (ul
          (loop-tpl :bindings [mon tparty]
                    (li (b (text "~{(:name mon)}, "))
