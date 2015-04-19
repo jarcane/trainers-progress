@@ -141,9 +141,7 @@
            (not @battling?)) (case (rand-int 4)
                                (0 1) (start-battle)
                                (2) (rnd-event)
-                               (3) (gym))
-      ;:else (swap! journal cons30 "Something Strange Happened")
-      )))
+                               (3) (gym)))))
 
 ;; Page template
 (html
