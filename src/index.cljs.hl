@@ -52,10 +52,7 @@
      :kills 0}))
 
 (defn level-up [mon]
-  (if (= (:kills mon)
-         (:lvl mon))
-    (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
-    (assoc mon :kills (inc (:kills mon)))))
+    (get-stats (lower-case (:name mon)) (inc (:lvl mon))))
 
 (defn get-damage [attr defr]
   (int (+ (/ (:lvl attr) 5)
@@ -111,7 +108,7 @@
     (do
       (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
       (swap! anidex conj (:name @enemy))
-      (swap! tparty #(cons (level-up (first %) (rest %))))
+      (swap! tparty #(cons (level-up (first %)) (rest %)))
       (reset! battlelog '())
       (reset! battling? false))
     (< 0 (:currhp @enemy) (int (* (:hp @enemy) .1)))
