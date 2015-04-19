@@ -45,7 +45,7 @@
      :kills 0}))
 
 (defn level-up [mon]
-  (if (>= (:kills mon) (quot (:lvl mon) 2))
+  (if (>= (:kills mon) (quot (:lvl mon) 4))
     (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
     (assoc mon :kills (inc (:kills mon)))))
 
@@ -67,12 +67,14 @@
       0.5
       :else 1)))
 
-(defn get-damage [attr defr plyr?]
+(defn get-damage [attr defr plyr? badges]
   (int (* (+ (/ (:lvl attr) 10)
              (/ (:atk attr) (:def defr))
              (* (:lvl attr) (+ .5 (rand)))
-             (if plyr? (/ (:lvl attr) 5) 1))
-          (type-bonus attr defr))))
+             )
+          (+ (type-bonus attr defr)
+             (if plyr? 0.4 -0.5)
+             (* 0.1 badges)))))
 
 (defn hurt-it [vic dam]
   (assoc vic :currhp (- (:currhp vic) dam)))
@@ -100,7 +102,7 @@
 ;; Game Logic
 (defn start-battle []
   (reset! player (first @tparty))
-  (reset! enemy (get-stats (rand-nth mons) (inc (int (* @avg-lvl (+ .8 (rand .4)))))))
+  (reset! enemy (get-stats (rand-nth mons) (inc (int (* @avg-lvl (+ .9 (rand .2)))))))
   (reset! battling? true)
   (swap! battlelog cons5 (str "Sent out " (:name @player))))
 
@@ -115,8 +117,8 @@
           (reset! battlelog '())
           (reset! battling? false))
         (do
-          (reset! player (first @tparty))
           (swap! tparty rest)
+          (reset! player (first @tparty))
           (swap! battlelog cons5 (str "Sent out " (:name @player))))))
     (<= (:currhp @enemy) 0)
     (do
@@ -132,8 +134,8 @@
       (swap! tparty cons6 (assoc @enemy :currhp (:hp @enemy)))
       (reset! battlelog '())
       (reset! battling? false))
-    :else (let [damage (get-damage @player @enemy true)
-                edamage (get-damage @enemy @player false)]
+    :else (let [damage (get-damage @player @enemy true @badges)
+                edamage (get-damage @enemy @player false 0)]
             (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
             (swap! enemy hurt-it damage)
             (swap! battlelog cons5 (str (:name @enemy) " hit for " edamage))
@@ -146,7 +148,7 @@
 (defn gym []
   (cond
     (< @badges 8)
-    (if (> @avg-lvl (* (inc @badges) 20))
+    (if (> @avg-lvl (* (inc @badges) 10))
       (do
         (swap! badges inc)
         (swap! journal cons30 "Passed my gym test and got a badge!"))
