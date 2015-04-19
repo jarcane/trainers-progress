@@ -80,7 +80,7 @@
           (swap! anidex conj (:name @enemy))
           (reset! battlelog '())
           (reset! battling? false))
-        (< 0 (:currhp @enemy) (int (* (:hp @enemy) .05)))
+        (< 0 (:currhp @enemy) (int (* (:hp @enemy) .1)))
         (do
           (swap! journal cons30 (str "I caught a " (:name @enemy) "!"))
           (swap! anidex conj (:name @enemy))
@@ -114,7 +114,9 @@
 ;; Page template
 (html
  (head
-  (title "A Trainer's Progress"))
+  (title "A Trainer's Progress")
+  (link :href "http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/journal/bootstrap.min.css"
+        :rel "stylesheet"))
  
   (body
    (h1 "A Trainer's Progress")
