@@ -68,7 +68,6 @@
 (defc journal [(str "The professor gave me a " (:name (first @tparty)) "! I'm off to adventure!")])
 (defc anidex #{(:name (first @tparty))})
 (defc battling? false)
-(defc dead? false)
 (defc player {})
 (defc enemy {})
 (defc battlelog '())
@@ -95,17 +94,15 @@
     (<= (:currhp @player) 0)
     (do
       (swap! battlelog cons5 (str "Oh no! " (:name @player) " was killed!"))
-      (swap! tparty rest)
-      (if (empty? @tparty)
+      (if (empty? (rest @tparty))
         (do
-          (swap! journal cons30 (str "I ran out of Animon and was eaten by the " (:name @enemy) ". "
-                                     "Reload the browser to try again."))
-          (reset! dead? true)
+          (swap! journal cons30 (str "Fled the " (:name @enemy) ", and retreated to the Anihospital."))
+          (reset! battlelog '())
           (reset! battling? false))
         (do
           (reset! player (first @tparty))
           (swap! tparty rest)
-          (swap! battlelog cons5 (str "Sent out " (:name @tparty))))))
+          (swap! battlelog cons5 (str "Sent out " (:name @player))))))
     (<= (:currhp @enemy) 0)
     (do
       (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
@@ -116,7 +113,7 @@
     (do
       (swap! journal cons30 (str "I caught a " (:name @enemy) "!"))
       (swap! anidex conj (:name @enemy))
-      (swap! tparty conj6 (assoc @enemy :currhp (:hp @enemy)))
+      (swap! tparty cons6 (assoc @enemy :currhp (:hp @enemy)))
       (reset! battlelog '())
       (reset! battling? false))
     :else (let [damage (get-damage @player @enemy)
@@ -135,15 +132,14 @@
 
 ;; Main Game Loop
 (with-init!
-  (with-interval 1000
+  (with-interval 100
     (cond
       @battling? (continue-battle)
       (and @ready
-           (not @battling?)
-           (not @dead?)) (case (rand-int 4)
-                           (0 1) (start-battle)
-                           (2) (rnd-event)
-                           (3) (gym))
+           (not @battling?)) (case (rand-int 4)
+                               (0 1) (start-battle)
+                               (2) (rnd-event)
+                               (3) (gym))
       ;:else (swap! journal cons30 "Something Strange Happened")
       )))
 
