@@ -28834,8 +28834,8 @@ goog.require("tailrecursion.hoplon.reload");
 tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit() {
   tailrecursion.hoplon.reload.reload_all.call(null);
   tailrecursion.hoplon.app_pages._index_DOT_html.tot_str = function tot_str(s) {
-    return cljs.core.apply.call(null, cljs.core._PLUS_, cljs.core.map.call(null, function(p1__12974_SHARP_) {
-      return p1__12974_SHARP_.charCodeAt(0);
+    return cljs.core.apply.call(null, cljs.core._PLUS_, cljs.core.map.call(null, function(p1__17966_SHARP_) {
+      return p1__17966_SHARP_.charCodeAt(0);
     }, s));
   };
   tailrecursion.hoplon.app_pages._index_DOT_html.conslim = function conslim(limit, lst, x) {
@@ -28855,8 +28855,8 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
     var hp = cljs.core.quot.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.tot_str.call(null, s), atk + def);
     var hplvld = hp + lvl * ((cljs.core.mod.call(null, cljs.core.hash.call(null, s), 9) + 1) / 10 + 1) | 0;
     var type = function() {
-      var G__13060 = cljs.core.mod.call(null, cljs.core.hash.call(null, s), 5);
-      switch(G__13060) {
+      var G__18052 = cljs.core.mod.call(null, cljs.core.hash.call(null, s), 5);
+      switch(G__18052) {
         case 0:
           return "Wood";
           break;
@@ -28904,9 +28904,9 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
       }
     }
   };
-  tailrecursion.hoplon.app_pages._index_DOT_html.get_damage = function get_damage(attr, defr, plyr_QMARK_) {
-    return((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(attr) / 10 + (new cljs.core.Keyword(null, "atk", "atk", 1014001162)).cljs$core$IFn$_invoke$arity$1(attr) / (new cljs.core.Keyword(null, "def", "def", 1014003575)).cljs$core$IFn$_invoke$arity$1(defr) + (new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(attr) * (0.5 + cljs.core.rand.call(null)) + (cljs.core.truth_(plyr_QMARK_) ? (new cljs.core.Keyword(null, "lvl", "lvl", 
-    1014011796)).cljs$core$IFn$_invoke$arity$1(attr) / 5 : 1)) * tailrecursion.hoplon.app_pages._index_DOT_html.type_bonus.call(null, attr, defr) | 0;
+  tailrecursion.hoplon.app_pages._index_DOT_html.get_damage = function get_damage(attr, defr, plyr_QMARK_, badges) {
+    return((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(attr) / 10 + (new cljs.core.Keyword(null, "atk", "atk", 1014001162)).cljs$core$IFn$_invoke$arity$1(attr) / (new cljs.core.Keyword(null, "def", "def", 1014003575)).cljs$core$IFn$_invoke$arity$1(defr) + (new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(attr) * (0.5 + cljs.core.rand.call(null))) * (tailrecursion.hoplon.app_pages._index_DOT_html.type_bonus.call(null, attr, 
+    defr) + (cljs.core.truth_(plyr_QMARK_) ? 0.4 : -0.5) + 0.1 * badges) | 0;
   };
   tailrecursion.hoplon.app_pages._index_DOT_html.hurt_it = function hurt_it(vic, dam) {
     return cljs.core.assoc.call(null, vic, new cljs.core.Keyword(null, "currhp", "currhp", 3959751212), (new cljs.core.Keyword(null, "currhp", "currhp", 3959751212)).cljs$core$IFn$_invoke$arity$1(vic) - dam);
@@ -28921,19 +28921,19 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
   tailrecursion.hoplon.app_pages._index_DOT_html.battlelog = tailrecursion.javelin.cell.call(null, cljs.core.List.EMPTY);
   tailrecursion.hoplon.app_pages._index_DOT_html.badges = tailrecursion.javelin.cell.call(null, 0);
   tailrecursion.hoplon.app_pages._index_DOT_html.beat_final = tailrecursion.javelin.cell.call(null, false);
-  tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl = tailrecursion.javelin.formula.call(null, function(G__13062, G__13064, G__13061, G__13065, G__13063, G__13066) {
-    return G__13061.call(null, G__13062.call(null, G__13063, 0, G__13064.call(null, function(p1__12975_SHARP_) {
-      return(new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(p1__12975_SHARP_);
-    }, G__13065)), G__13066.call(null, G__13065));
+  tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl = tailrecursion.javelin.formula.call(null, function(G__18054, G__18056, G__18053, G__18057, G__18055, G__18058) {
+    return G__18053.call(null, G__18054.call(null, G__18055, 0, G__18056.call(null, function(p1__17967_SHARP_) {
+      return(new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(p1__17967_SHARP_);
+    }, G__18057)), G__18058.call(null, G__18057));
   }).call(null, cljs.core.reduce, cljs.core.map, cljs.core.quot, tailrecursion.hoplon.app_pages._index_DOT_html.tparty, cljs.core._PLUS_, cljs.core.count);
-  tailrecursion.hoplon.app_pages._index_DOT_html.ready = tailrecursion.javelin.formula.call(null, function(G__13068, G__13067, G__13069) {
-    return G__13067.call(null, G__13068.call(null, G__13069));
+  tailrecursion.hoplon.app_pages._index_DOT_html.ready = tailrecursion.javelin.formula.call(null, function(G__18060, G__18059, G__18061) {
+    return G__18059.call(null, G__18060.call(null, G__18061));
   }).call(null, cljs.core.empty_QMARK_, cljs.core.not, tailrecursion.hoplon.app_pages._index_DOT_html.tname);
-  tailrecursion.hoplon.app_pages._index_DOT_html.master = tailrecursion.javelin.formula.call(null, function(G__13070, G__13072, G__13071) {
+  tailrecursion.hoplon.app_pages._index_DOT_html.master = tailrecursion.javelin.formula.call(null, function(G__18062, G__18064, G__18063) {
     if (cljs.core.truth_(function() {
-      var and__7526__auto__ = G__13070.call(null, G__13071, 8);
+      var and__7526__auto__ = G__18062.call(null, G__18063, 8);
       if (cljs.core.truth_(and__7526__auto__)) {
-        return G__13072;
+        return G__18064;
       } else {
         return and__7526__auto__;
       }
@@ -28945,7 +28945,7 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
   }).call(null, cljs.core._EQ_, tailrecursion.hoplon.app_pages._index_DOT_html.beat_final, tailrecursion.hoplon.app_pages._index_DOT_html.badges);
   tailrecursion.hoplon.app_pages._index_DOT_html.start_battle = function start_battle() {
     cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.player, cljs.core.first.call(null, cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.tparty)));
-    cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy, tailrecursion.hoplon.app_pages._index_DOT_html.get_stats.call(null, cljs.core.rand_nth.call(null, mons.table.mons), (cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl) * (0.8 + cljs.core.rand.call(null, 0.4)) | 0) + 1));
+    cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy, tailrecursion.hoplon.app_pages._index_DOT_html.get_stats.call(null, cljs.core.rand_nth.call(null, mons.table.mons), (cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl) * (0.9 + cljs.core.rand.call(null, 0.2)) | 0) + 1));
     cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battling_QMARK_, true);
     return cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battlelog, tailrecursion.hoplon.app_pages._index_DOT_html.cons5, "Sent out " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.player))));
   };
@@ -28965,8 +28965,8 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
       if ((new cljs.core.Keyword(null, "currhp", "currhp", 3959751212)).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy)) <= 0) {
         cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.journal, tailrecursion.hoplon.app_pages._index_DOT_html.cons30, "I defeated a " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy))) + "!");
         cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.anidex, cljs.core.conj, (new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy)));
-        cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.tparty, function(p1__12976_SHARP_) {
-          return cljs.core.cons.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.level_up.call(null, cljs.core.first.call(null, p1__12976_SHARP_)), cljs.core.rest.call(null, p1__12976_SHARP_));
+        cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.tparty, function(p1__17968_SHARP_) {
+          return cljs.core.cons.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.level_up.call(null, cljs.core.first.call(null, p1__17968_SHARP_)), cljs.core.rest.call(null, p1__17968_SHARP_));
         });
         cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battlelog, cljs.core.List.EMPTY);
         return cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battling_QMARK_, false);
@@ -28980,8 +28980,8 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
           return cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battling_QMARK_, false);
         } else {
           if (new cljs.core.Keyword(null, "else", "else", 1017020587)) {
-            var damage = tailrecursion.hoplon.app_pages._index_DOT_html.get_damage.call(null, cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.player), cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy), true);
-            var edamage = tailrecursion.hoplon.app_pages._index_DOT_html.get_damage.call(null, cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy), cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.player), false);
+            var damage = tailrecursion.hoplon.app_pages._index_DOT_html.get_damage.call(null, cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.player), cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy), true, cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.badges));
+            var edamage = tailrecursion.hoplon.app_pages._index_DOT_html.get_damage.call(null, cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy), cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.player), false, 0);
             cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battlelog, tailrecursion.hoplon.app_pages._index_DOT_html.cons5, "Did " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(damage) + " damage to " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy))));
             cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy, tailrecursion.hoplon.app_pages._index_DOT_html.hurt_it, damage);
             cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battlelog, tailrecursion.hoplon.app_pages._index_DOT_html.cons5, "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy))) + " hit for " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(edamage));
@@ -28998,7 +28998,7 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
   };
   tailrecursion.hoplon.app_pages._index_DOT_html.gym = function gym() {
     if (cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.badges) < 8) {
-      if (cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl) > (cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.badges) + 1) * 20) {
+      if (cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl) > (cljs.core.deref.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.badges) + 1) * 10) {
         cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.badges, cljs.core.inc);
         return cljs.core.swap_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.journal, tailrecursion.hoplon.app_pages._index_DOT_html.cons30, "Passed my gym test and got a badge!");
       } else {
@@ -29034,8 +29034,8 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
             return and__7526__auto__;
           }
         }())) {
-          var G__13073 = cljs.core.rand_int.call(null, 7);
-          switch(G__13073) {
+          var G__18065 = cljs.core.rand_int.call(null, 7);
+          switch(G__18065) {
             case 0:
             ;
             case 1:
@@ -29066,203 +29066,203 @@ tailrecursion.hoplon.app_pages._index_DOT_html.hoploninit = function hoploninit(
           return null;
         }
       }
-    }, 500);
+    }, 10);
   });
   tailrecursion.hoplon.html.call(null, tailrecursion.hoplon.html_head.call(null, cljs.core.PersistentArrayMap.EMPTY, function() {
     var meta = tailrecursion.hoplon.html_meta;
     return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [tailrecursion.hoplon.link.call(null, new cljs.core.Keyword(null, "rel", "rel", 1014017035), "stylesheet", new cljs.core.Keyword(null, "type", "type", 1017479852), "text/css", new cljs.core.Keyword(null, "href", "href", 1017115293), window["_hoplon_main_css"]), tailrecursion.hoplon.title.call(null, "A Trainer's Progress"), tailrecursion.hoplon.link.call(null, new cljs.core.Keyword(null, "href", "href", 1017115293), 
     "http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/journal/bootstrap.min.css", new cljs.core.Keyword(null, "rel", "rel", 1014017035), "stylesheet")], null);
   }()), tailrecursion.hoplon.html_body.call(null, cljs.core.PersistentArrayMap.EMPTY, function() {
-    var G__13074 = tailrecursion.hoplon.h1.call(null, "A Trainer's Progress");
-    return G__13074;
+    var G__18066 = tailrecursion.hoplon.h1.call(null, "A Trainer's Progress");
+    return G__18066;
   }(), function() {
-    var G__13075 = tailrecursion.hoplon.h2.call(null, "Trainer");
-    return G__13075;
+    var G__18067 = tailrecursion.hoplon.h2.call(null, "Trainer");
+    return G__18067;
   }(), function() {
-    var G__13077 = tailrecursion.hoplon.br.call(null);
-    var G__13078 = tailrecursion.hoplon.br.call(null);
-    var G__13079 = tailrecursion.hoplon.br.call(null);
-    var G__13076 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__13077, G__13078, G__13079) {
-      return function(G__13081, G__13080, G__13082) {
-        return G__13080.call(null, G__13081.call(null, G__13082));
+    var G__18069 = tailrecursion.hoplon.br.call(null);
+    var G__18070 = tailrecursion.hoplon.br.call(null);
+    var G__18071 = tailrecursion.hoplon.br.call(null);
+    var G__18068 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__18069, G__18070, G__18071) {
+      return function(G__18073, G__18072, G__18074) {
+        return G__18072.call(null, G__18073.call(null, G__18074));
       };
-    }(G__13077, G__13078, G__13079)).call(null, cljs.core.empty_QMARK_, cljs.core.not, tailrecursion.hoplon.app_pages._index_DOT_html.tname), function() {
+    }(G__18069, G__18070, G__18071)).call(null, cljs.core.empty_QMARK_, cljs.core.not, tailrecursion.hoplon.app_pages._index_DOT_html.tname), function() {
       var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13077, G__13078, G__13079) {
-        return function(G__13083, G__13084) {
-          return G__13083.nodeValue = "Name: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__13084);
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18069, G__18070, G__18071) {
+        return function(G__18075, G__18076) {
+          return G__18075.nodeValue = "Name: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__18076);
         };
-      }(t__8829__auto__, G__13077, G__13078, G__13079)).call(null, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.tname);
+      }(t__8829__auto__, G__18069, G__18070, G__18071)).call(null, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.tname);
       return t__8829__auto__;
-    }(), G__13077, function() {
+    }(), G__18069, function() {
       var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13077, G__13078, G__13079) {
-        return function(G__13088, G__13087, G__13086, G__13085) {
-          return G__13085.nodeValue = "Anidex: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__13086.call(null, G__13087)) + " out of " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__13086.call(null, G__13088));
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18069, G__18070, G__18071) {
+        return function(G__18080, G__18079, G__18078, G__18077) {
+          return G__18077.nodeValue = "Anidex: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__18078.call(null, G__18079)) + " out of " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__18078.call(null, G__18080));
         };
-      }(t__8829__auto__, G__13077, G__13078, G__13079)).call(null, mons.table.mons, tailrecursion.hoplon.app_pages._index_DOT_html.anidex, cljs.core.count, t__8829__auto__);
+      }(t__8829__auto__, G__18069, G__18070, G__18071)).call(null, mons.table.mons, tailrecursion.hoplon.app_pages._index_DOT_html.anidex, cljs.core.count, t__8829__auto__);
       return t__8829__auto__;
-    }(), G__13078, function() {
+    }(), G__18070, function() {
       var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13077, G__13078, G__13079) {
-        return function(G__13091, G__13090, G__13089) {
-          return G__13089.nodeValue = "Badges: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__13090) + " " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__13091);
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18069, G__18070, G__18071) {
+        return function(G__18083, G__18082, G__18081) {
+          return G__18081.nodeValue = "Badges: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__18082) + " " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__18083);
         };
-      }(t__8829__auto__, G__13077, G__13078, G__13079)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.master, tailrecursion.hoplon.app_pages._index_DOT_html.badges, t__8829__auto__);
+      }(t__8829__auto__, G__18069, G__18070, G__18071)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.master, tailrecursion.hoplon.app_pages._index_DOT_html.badges, t__8829__auto__);
       return t__8829__auto__;
-    }(), G__13079, function() {
+    }(), G__18071, function() {
       var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13077, G__13078, G__13079) {
-        return function(G__13094, G__13093, G__13092, G__13095) {
-          return G__13092.nodeValue = "ID #: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__13093.call(null, G__13094.call(null, G__13095), 1E6));
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18069, G__18070, G__18071) {
+        return function(G__18086, G__18085, G__18084, G__18087) {
+          return G__18084.nodeValue = "ID #: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__18085.call(null, G__18086.call(null, G__18087), 1E6));
         };
-      }(t__8829__auto__, G__13077, G__13078, G__13079)).call(null, cljs.core.hash, cljs.core.mod, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.tname);
+      }(t__8829__auto__, G__18069, G__18070, G__18071)).call(null, cljs.core.hash, cljs.core.mod, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.tname);
       return t__8829__auto__;
     }());
-    return G__13076;
+    return G__18068;
   }(), function() {
-    var G__13098 = tailrecursion.hoplon.input.call(null, new cljs.core.Keyword(null, "id", "id", 1013907597), "name", new cljs.core.Keyword(null, "type", "type", 1017479852), "text", new cljs.core.Keyword(null, "value", "value", 1125876963), "");
-    var G__13099 = tailrecursion.hoplon.input.call(null, new cljs.core.Keyword(null, "type", "type", 1017479852), "submit", new cljs.core.Keyword(null, "value", "value", 1125876963), "To Adventure!", new cljs.core.Keyword(null, "on-click", "on-click", 1416542092), function(G__13098) {
+    var G__18090 = tailrecursion.hoplon.input.call(null, new cljs.core.Keyword(null, "id", "id", 1013907597), "name", new cljs.core.Keyword(null, "type", "type", 1017479852), "text", new cljs.core.Keyword(null, "value", "value", 1125876963), "");
+    var G__18091 = tailrecursion.hoplon.input.call(null, new cljs.core.Keyword(null, "type", "type", 1017479852), "submit", new cljs.core.Keyword(null, "value", "value", 1125876963), "To Adventure!", new cljs.core.Keyword(null, "on-click", "on-click", 1416542092), function(G__18090) {
       return function() {
         return cljs.core.reset_BANG_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.tname, tailrecursion.hoplon.val_id.call(null, "name"));
       };
-    }(G__13098));
-    var G__13097 = tailrecursion.hoplon.form.call(null, G__13098, G__13099);
-    var G__13096 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__13098, G__13099, G__13097) {
-      return function(G__13100, G__13101) {
-        return G__13100.call(null, G__13101);
+    }(G__18090));
+    var G__18089 = tailrecursion.hoplon.form.call(null, G__18090, G__18091);
+    var G__18088 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__18090, G__18091, G__18089) {
+      return function(G__18092, G__18093) {
+        return G__18092.call(null, G__18093);
       };
-    }(G__13098, G__13099, G__13097)).call(null, cljs.core.empty_QMARK_, tailrecursion.hoplon.app_pages._index_DOT_html.tname), document.createTextNode("What's your trainer's name?"), G__13097);
-    return G__13096;
+    }(G__18090, G__18091, G__18089)).call(null, cljs.core.empty_QMARK_, tailrecursion.hoplon.app_pages._index_DOT_html.tname), document.createTextNode("What's your trainer's name?"), G__18089);
+    return G__18088;
   }(), function() {
-    var G__13103 = tailrecursion.hoplon.h2.call(null, "Party");
-    var G__13104 = tailrecursion.hoplon.ul.call(null, tailrecursion.hoplon.loop_tpl_STAR_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.tparty, null, function(G__13103) {
+    var G__18095 = tailrecursion.hoplon.h2.call(null, "Party");
+    var G__18096 = tailrecursion.hoplon.ul.call(null, tailrecursion.hoplon.loop_tpl_STAR_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.tparty, null, function(G__18095) {
       return function(item__8815__auto__) {
-        var vec__13105 = tailrecursion.javelin.cell_map.call(null, cljs.core.identity, tailrecursion.javelin.formula.call(null, function(G__13103) {
-          return function(G__13106) {
-            var mon = G__13106;
+        var vec__18097 = tailrecursion.javelin.cell_map.call(null, cljs.core.identity, tailrecursion.javelin.formula.call(null, function(G__18095) {
+          return function(G__18098) {
+            var mon = G__18098;
             return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [mon], null);
           };
-        }(G__13103)).call(null, item__8815__auto__));
-        var mon = cljs.core.nth.call(null, vec__13105, 0, null);
+        }(G__18095)).call(null, item__8815__auto__));
+        var mon = cljs.core.nth.call(null, vec__18097, 0, null);
         return tailrecursion.hoplon.li.call(null, tailrecursion.hoplon.b.call(null, function() {
           var t__8829__auto__ = document.createTextNode("");
-          tailrecursion.javelin.formula.call(null, function(t__8829__auto__, vec__13105, mon, G__13103) {
-            return function(G__13108, G__13107) {
-              return G__13107.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(G__13108)) + ", ";
+          tailrecursion.javelin.formula.call(null, function(t__8829__auto__, vec__18097, mon, G__18095) {
+            return function(G__18100, G__18099) {
+              return G__18099.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(G__18100)) + ", ";
             };
-          }(t__8829__auto__, vec__13105, mon, G__13103)).call(null, mon, t__8829__auto__);
+          }(t__8829__auto__, vec__18097, mon, G__18095)).call(null, mon, t__8829__auto__);
           return t__8829__auto__;
         }()), tailrecursion.hoplon.i.call(null, function() {
           var t__8829__auto__ = document.createTextNode("");
-          tailrecursion.javelin.formula.call(null, function(t__8829__auto__, vec__13105, mon, G__13103) {
-            return function(G__13110, G__13109) {
-              return G__13109.nodeValue = "Lvl " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(G__13110)) + " " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "type", "type", 1017479852)).cljs$core$IFn$_invoke$arity$1(G__13110)) + " Animon";
+          tailrecursion.javelin.formula.call(null, function(t__8829__auto__, vec__18097, mon, G__18095) {
+            return function(G__18102, G__18101) {
+              return G__18101.nodeValue = "Lvl " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(G__18102)) + " " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "type", "type", 1017479852)).cljs$core$IFn$_invoke$arity$1(G__18102)) + " Animon";
             };
-          }(t__8829__auto__, vec__13105, mon, G__13103)).call(null, mon, t__8829__auto__);
+          }(t__8829__auto__, vec__18097, mon, G__18095)).call(null, mon, t__8829__auto__);
           return t__8829__auto__;
         }()), function() {
           var t__8829__auto__ = document.createTextNode("");
-          tailrecursion.javelin.formula.call(null, function(t__8829__auto__, vec__13105, mon, G__13103) {
-            return function(G__13112, G__13111) {
-              return G__13111.nodeValue = " - ATK " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "atk", "atk", 1014001162)).cljs$core$IFn$_invoke$arity$1(G__13112)) + ", DEF " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "def", "def", 1014003575)).cljs$core$IFn$_invoke$arity$1(G__13112)) + ", HP " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "hp", "hp", 1013907578)).cljs$core$IFn$_invoke$arity$1(G__13112));
+          tailrecursion.javelin.formula.call(null, function(t__8829__auto__, vec__18097, mon, G__18095) {
+            return function(G__18104, G__18103) {
+              return G__18103.nodeValue = " - ATK " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "atk", "atk", 1014001162)).cljs$core$IFn$_invoke$arity$1(G__18104)) + ", DEF " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "def", "def", 1014003575)).cljs$core$IFn$_invoke$arity$1(G__18104)) + ", HP " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "hp", "hp", 1013907578)).cljs$core$IFn$_invoke$arity$1(G__18104));
             };
-          }(t__8829__auto__, vec__13105, mon, G__13103)).call(null, mon, t__8829__auto__);
+          }(t__8829__auto__, vec__18097, mon, G__18095)).call(null, mon, t__8829__auto__);
           return t__8829__auto__;
         }());
       };
-    }(G__13103)));
-    var G__13102 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__13103, G__13104) {
-      return function(G__13113) {
-        return G__13113;
+    }(G__18095)));
+    var G__18094 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__18095, G__18096) {
+      return function(G__18105) {
+        return G__18105;
       };
-    }(G__13103, G__13104)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.ready), G__13103, function() {
+    }(G__18095, G__18096)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.ready), G__18095, function() {
       var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13103, G__13104) {
-        return function(G__13115, G__13114) {
-          return G__13114.nodeValue = "Party Level: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__13115);
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18095, G__18096) {
+        return function(G__18107, G__18106) {
+          return G__18106.nodeValue = "Party Level: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__18107);
         };
-      }(t__8829__auto__, G__13103, G__13104)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl, t__8829__auto__);
+      }(t__8829__auto__, G__18095, G__18096)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.avg_lvl, t__8829__auto__);
       return t__8829__auto__;
-    }(), G__13104);
-    return G__13102;
+    }(), G__18096);
+    return G__18094;
   }(), function() {
-    var G__13117 = tailrecursion.hoplon.h2.call(null, "Battle!");
-    var G__13119 = tailrecursion.hoplon.br.call(null);
-    var G__13118 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "align", "align", 1106807415), "right", function() {
+    var G__18109 = tailrecursion.hoplon.h2.call(null, "Battle!");
+    var G__18111 = tailrecursion.hoplon.br.call(null);
+    var G__18110 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "align", "align", 1106807415), "right", function() {
       var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13117, G__13119) {
-        return function(G__13125, G__13124) {
-          return G__13124.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(G__13125)) + " - Lvl. " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(G__13125));
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18109, G__18111) {
+        return function(G__18117, G__18116) {
+          return G__18116.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(G__18117)) + " - Lvl. " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(G__18117));
         };
-      }(t__8829__auto__, G__13117, G__13119)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy, t__8829__auto__);
+      }(t__8829__auto__, G__18109, G__18111)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy, t__8829__auto__);
       return t__8829__auto__;
-    }(), G__13119, function() {
+    }(), G__18111, function() {
       var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13117, G__13119) {
-        return function(G__13127, G__13126) {
-          return G__13126.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "currhp", "currhp", 3959751212)).cljs$core$IFn$_invoke$arity$1(G__13127)) + "/" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "hp", "hp", 1013907578)).cljs$core$IFn$_invoke$arity$1(G__13127));
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18109, G__18111) {
+        return function(G__18119, G__18118) {
+          return G__18118.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "currhp", "currhp", 3959751212)).cljs$core$IFn$_invoke$arity$1(G__18119)) + "/" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "hp", "hp", 1013907578)).cljs$core$IFn$_invoke$arity$1(G__18119));
         };
-      }(t__8829__auto__, G__13117, G__13119)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy, t__8829__auto__);
-      return t__8829__auto__;
-    }());
-    var G__13120 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "align", "align", 1106807415), "center", document.createTextNode("VS."));
-    var G__13122 = tailrecursion.hoplon.br.call(null);
-    var G__13121 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "align", "align", 1106807415), "left", function() {
-      var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13117, G__13119, G__13118, G__13120, G__13122) {
-        return function(G__13128, G__13129) {
-          return G__13128.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(G__13129)) + " - Lvl. " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(G__13129));
-        };
-      }(t__8829__auto__, G__13117, G__13119, G__13118, G__13120, G__13122)).call(null, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.player);
-      return t__8829__auto__;
-    }(), G__13122, function() {
-      var t__8829__auto__ = document.createTextNode("");
-      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__13117, G__13119, G__13118, G__13120, G__13122) {
-        return function(G__13130, G__13131) {
-          return G__13130.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "currhp", "currhp", 3959751212)).cljs$core$IFn$_invoke$arity$1(G__13131)) + "/" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "hp", "hp", 1013907578)).cljs$core$IFn$_invoke$arity$1(G__13131));
-        };
-      }(t__8829__auto__, G__13117, G__13119, G__13118, G__13120, G__13122)).call(null, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.player);
+      }(t__8829__auto__, G__18109, G__18111)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.enemy, t__8829__auto__);
       return t__8829__auto__;
     }());
-    var G__13123 = tailrecursion.hoplon.ul.call(null, tailrecursion.hoplon.loop_tpl_STAR_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battlelog, null, function(G__13117, G__13119, G__13118, G__13120, G__13122, G__13121) {
+    var G__18112 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "align", "align", 1106807415), "center", document.createTextNode("VS."));
+    var G__18114 = tailrecursion.hoplon.br.call(null);
+    var G__18113 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "align", "align", 1106807415), "left", function() {
+      var t__8829__auto__ = document.createTextNode("");
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18109, G__18111, G__18110, G__18112, G__18114) {
+        return function(G__18120, G__18121) {
+          return G__18120.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "name", "name", 1017277949)).cljs$core$IFn$_invoke$arity$1(G__18121)) + " - Lvl. " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "lvl", "lvl", 1014011796)).cljs$core$IFn$_invoke$arity$1(G__18121));
+        };
+      }(t__8829__auto__, G__18109, G__18111, G__18110, G__18112, G__18114)).call(null, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.player);
+      return t__8829__auto__;
+    }(), G__18114, function() {
+      var t__8829__auto__ = document.createTextNode("");
+      tailrecursion.javelin.formula.call(null, function(t__8829__auto__, G__18109, G__18111, G__18110, G__18112, G__18114) {
+        return function(G__18122, G__18123) {
+          return G__18122.nodeValue = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "currhp", "currhp", 3959751212)).cljs$core$IFn$_invoke$arity$1(G__18123)) + "/" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "hp", "hp", 1013907578)).cljs$core$IFn$_invoke$arity$1(G__18123));
+        };
+      }(t__8829__auto__, G__18109, G__18111, G__18110, G__18112, G__18114)).call(null, t__8829__auto__, tailrecursion.hoplon.app_pages._index_DOT_html.player);
+      return t__8829__auto__;
+    }());
+    var G__18115 = tailrecursion.hoplon.ul.call(null, tailrecursion.hoplon.loop_tpl_STAR_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battlelog, null, function(G__18109, G__18111, G__18110, G__18112, G__18114, G__18113) {
       return function(item__8815__auto__) {
-        var vec__13132 = tailrecursion.javelin.cell_map.call(null, cljs.core.identity, tailrecursion.javelin.formula.call(null, function(G__13117, G__13119, G__13118, G__13120, G__13122, G__13121) {
-          return function(G__13133) {
-            var log = G__13133;
+        var vec__18124 = tailrecursion.javelin.cell_map.call(null, cljs.core.identity, tailrecursion.javelin.formula.call(null, function(G__18109, G__18111, G__18110, G__18112, G__18114, G__18113) {
+          return function(G__18125) {
+            var log = G__18125;
             return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [log], null);
           };
-        }(G__13117, G__13119, G__13118, G__13120, G__13122, G__13121)).call(null, item__8815__auto__));
-        var log = cljs.core.nth.call(null, vec__13132, 0, null);
+        }(G__18109, G__18111, G__18110, G__18112, G__18114, G__18113)).call(null, item__8815__auto__));
+        var log = cljs.core.nth.call(null, vec__18124, 0, null);
         return tailrecursion.hoplon.li.call(null, log);
       };
-    }(G__13117, G__13119, G__13118, G__13120, G__13122, G__13121)));
-    var G__13116 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__13117, G__13119, G__13118, G__13120, G__13122, G__13121, G__13123) {
-      return function(G__13134) {
-        return G__13134;
+    }(G__18109, G__18111, G__18110, G__18112, G__18114, G__18113)));
+    var G__18108 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__18109, G__18111, G__18110, G__18112, G__18114, G__18113, G__18115) {
+      return function(G__18126) {
+        return G__18126;
       };
-    }(G__13117, G__13119, G__13118, G__13120, G__13122, G__13121, G__13123)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battling_QMARK_), G__13117, G__13118, G__13120, G__13121, G__13123);
-    return G__13116;
+    }(G__18109, G__18111, G__18110, G__18112, G__18114, G__18113, G__18115)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.battling_QMARK_), G__18109, G__18110, G__18112, G__18113, G__18115);
+    return G__18108;
   }(), function() {
-    var G__13136 = tailrecursion.hoplon.h2.call(null, "Journal");
-    var G__13137 = tailrecursion.hoplon.ul.call(null, tailrecursion.hoplon.loop_tpl_STAR_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.journal, null, function(G__13136) {
+    var G__18128 = tailrecursion.hoplon.h2.call(null, "Journal");
+    var G__18129 = tailrecursion.hoplon.ul.call(null, tailrecursion.hoplon.loop_tpl_STAR_.call(null, tailrecursion.hoplon.app_pages._index_DOT_html.journal, null, function(G__18128) {
       return function(item__8815__auto__) {
-        var vec__13138 = tailrecursion.javelin.cell_map.call(null, cljs.core.identity, tailrecursion.javelin.formula.call(null, function(G__13136) {
-          return function(G__13139) {
-            var x = G__13139;
+        var vec__18130 = tailrecursion.javelin.cell_map.call(null, cljs.core.identity, tailrecursion.javelin.formula.call(null, function(G__18128) {
+          return function(G__18131) {
+            var x = G__18131;
             return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [x], null);
           };
-        }(G__13136)).call(null, item__8815__auto__));
-        var x = cljs.core.nth.call(null, vec__13138, 0, null);
+        }(G__18128)).call(null, item__8815__auto__));
+        var x = cljs.core.nth.call(null, vec__18130, 0, null);
         return tailrecursion.hoplon.li.call(null, x);
       };
-    }(G__13136)));
-    var G__13135 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__13136, G__13137) {
-      return function(G__13140) {
-        return G__13140;
+    }(G__18128)));
+    var G__18127 = tailrecursion.hoplon.div.call(null, new cljs.core.Keyword(null, "toggle", "toggle", 4440567494), tailrecursion.javelin.formula.call(null, function(G__18128, G__18129) {
+      return function(G__18132) {
+        return G__18132;
       };
-    }(G__13136, G__13137)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.ready), G__13136, G__13137);
-    return G__13135;
+    }(G__18128, G__18129)).call(null, tailrecursion.hoplon.app_pages._index_DOT_html.ready), G__18128, G__18129);
+    return G__18127;
   }()));
   return tailrecursion.hoplon.init.call(null);
 };
