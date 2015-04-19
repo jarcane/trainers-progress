@@ -43,24 +43,29 @@
      :currhp hplvld
      :type type}))
 
+(defn get-damage [attr defr]
+  (int (+ (/ (:lvl attr) 5)
+          (/ (:atk attr) (:def defr))
+          (* (:lvl attr) (+ .5 (rand)))
+          1)))
+
 (defn hurt-it [vic dam]
   (assoc vic :currhp (- (:currhp vic) dam)))
 
 ;; Initial trainer state
 (defc tname "")
-(defc tparty [[(rand-nth mons) (inc (rand-int 10))]])
+(defc tparty [(get-stats (rand-nth mons) (inc (rand-int 10)))])
 (defc journal [(str "The professor gave me a " (capitalize-name (first (first @tparty))) "! I'm off to adventure!")])
-(defc anidex #{(capitalize-name (get-in @tparty [0 0]))})
+(defc anidex #{(:name (first @tparty))})
 (defc battling? false)
-(defc player (apply get-stats (first @tparty)))
-(defc enemy (get-stats (rand-nth mons) (inc (rand-int 10))))
+(defc player {})
+(defc enemy {})
 (defc battlelog '())
 (defc badges 0)
 (defc beat-final false)
 
-(defc= ptparty (map #(apply get-stats %) tparty))
-(defc= avg-lvl (quot (reduce + (map :level ptparty))
-                     (count ptparty)))
+(defc= avg-lvl (quot (reduce + (map :level tparty))
+                     (count tparty)))
 (defc= ready (not (empty? tname)))
 (defc= master (if (and (= badges 8)
                        beat-final)
@@ -69,7 +74,7 @@
 
 ;; Game Logic
 (defn start-battle []
-  (reset! player (first @ptparty))
+  (reset! player (first @tparty))
   (reset! enemy (get-stats (rand-nth mons) (inc (rand-int 10))))
   (reset! battling? true))
 
@@ -84,10 +89,10 @@
         (do
           (swap! journal cons30 (str "I caught a " (:name @enemy) "!"))
           (swap! anidex conj (:name @enemy))
-          (swap! tparty cons6 [(lower-case (:name @enemy)) (:lvl @enemy)])
+          (swap! tparty cons6 (assoc @enemy :currhp (:hp @enemy)))
           (reset! battlelog '())
           (reset! battling? false))
-        :else (let [damage (rand-int 30)]
+        :else (let [damage (get-damage @player @enemy)]
                 (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
                 (swap! enemy hurt-it damage)
                 )
@@ -146,7 +151,7 @@
    (div :toggle (cell= ready)
         (h2 "Party")
         (ul
-         (loop-tpl :bindings [mon ptparty]
+         (loop-tpl :bindings [mon tparty]
                    (li (b (text "~{(:name mon)}, "))
                        (i (text "Lvl ~{(:lvl mon)} ~{(:type mon)} Animon"))
                        (text " - ATK ~{(:atk mon)}, DEF ~{(:def mon)}, HP ~{(:hp mon)}")))))
