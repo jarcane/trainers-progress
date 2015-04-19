@@ -52,7 +52,7 @@
      :kills 0}))
 
 (defn level-up [mon]
-  (if (>= (:kills mon) (:lvl mon))
+  (if (>= (:kills mon) (quot (:lvl mon) 2))
     (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
     (assoc mon :kills (inc (:kills mon)))))
 
@@ -170,7 +170,7 @@
 
 ;; Main Game Loop
 (with-init!
-  (with-interval 1000
+  (with-interval 100
     (cond
       @battling? (continue-battle)
       (and @ready
@@ -227,13 +227,13 @@
    (div :toggle (cell= battling?)
         (h2 "Battle!")
         (div :align "right"
-             (text "~{(:name enemy)} - Lvl. ~{(:lvl enemy)} ~{(:type enemy)}")
+             (text "~{(:name enemy)} - Lvl. ~{(:lvl enemy)}")
              (br)
              (text "~{(:currhp enemy)}/~{(:hp enemy)}")
              )
         (div :align "center" (text "VS."))
         (div :align "left"
-             (text "~{(:name player)} - Lvl. ~{(:lvl player)} ~{(:type player)}")
+             (text "~{(:name player)} - Lvl. ~{(:lvl player)}")
              (br)
              (text "~{(:currhp player)}/~{(:hp player)}")
              )
