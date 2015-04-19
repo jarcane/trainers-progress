@@ -2,7 +2,7 @@
   (:require
    [tailrecursion.hoplon.reload :refer [reload-all]]
    [tailrecursion.hoplon.util :refer [capitalize-name]]
-   [mons.table :refer [mons]]))
+   [mons.table :refer [mons events]]))
 
 (reload-all)
 
@@ -79,14 +79,14 @@
       (reset! battlelog '())
       (reset! battling? false))
     (let [damage (rand-int 30)]
-      (swap! battlelog cons5 (str "Did " damage " damage to enemy"))
+      (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
       (swap! enemy hurt-it damage)
       ;(reset! enemy {:currhp 0})
       )
     ))
 
 (defn rnd-event []
-  (swap! journal cons30 "Did a thing!"))
+  (swap! journal cons30 (rand-nth events)))
 
 (defn gym []
   (swap! journal cons30 "Fought a lot of things!"))
@@ -100,7 +100,8 @@
                                       (0 1) (start-battle)
                                       (2) (rnd-event)
                                       (3) (gym))
-      :else (swap! journal cons30 "Something Strange Happened"))))
+      ;:else (swap! journal cons30 "Something Strange Happened")
+      )))
 
 ;; Page template
 (html
