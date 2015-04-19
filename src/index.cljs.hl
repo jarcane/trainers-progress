@@ -13,17 +13,20 @@
   (apply + (map #(.charCodeAt % 0) s)))
 
 ; Pushes an item to a list and returns only the first x of the list
-(defn conslim [lst x]
+(defn conslim [limit lst x]
   (let [nlst (cons x lst)]
-    (if (> (count nlst) 30)
-      (take 30 nlst)
+    (if (> (count nlst) limit)
+      (take limit nlst)
       nlst)))
+(def cons30 (partial conslim 30))
+(def cons5 (partial conslim 5))
 
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s lvl]
   (let [atk (+ 4 (mod (hash s) 16))
         def (+ 3 (mod (hash (reverse s)) 17))
         hp (quot (tot-str s) (+ atk def))
+        hplvld (int (+ hp (* lvl (inc (/ (inc (mod (hash s) 9)) 10)))))
         type (case (mod (hash s) 5)
                0 "Wood"
                1 "Earth"
@@ -34,7 +37,8 @@
      :lvl lvl
      :atk (+ atk (quot lvl (inc (mod (hash s) 4))))
      :def (+ def (quot lvl (inc (mod (hash (reverse s)) 5))))
-     :hp  (int (+ hp (* lvl (inc (/ (inc (mod (hash s) 9)) 10)))))
+     :hp  hplvld
+     :currhp hplvld
      :type type}))
 
 ;; Initial trainer state
@@ -43,29 +47,46 @@
 (defc journal [(str "The professor gave me a " (capitalize-name (first (first @tparty))) "! I'm off to adventure!")])
 (defc anidex [(get-in @tparty [0 0])])
 (defc battling? false)
+(defc player (apply get-stats (first @tparty)))
+(defc enemy (get-stats (rand-nth mons) (inc (rand-int 10))))
+(defc battlelog '())
+(defc badges 0)
+(defc beat-final false)
 
 (defc= ptparty (map #(apply get-stats %) tparty))
+(defc= avg-lvl (quot (reduce + (map :level ptparty))
+                     (count ptparty)))
 (defc= ready (not (empty? tname)))
+(defc= master (if (and (= badges 8)
+                       beat-final)
+                ". Master Trainer!"
+                ""))
 
 ;; Game Logic
 (defn start-battle []
-  ;;(do
-    ;;(swap! battling? not)
-    ;;(loop [player (get-stats (rand-nth tparty))
-      ;;     enemy (get-stats (rand-nth mons))]
-  ;;))
-  (swap! journal conslim "Fought a thing!"))
+  (do
+    (reset! player (first ptparty))
+    (reset! enemy (get-stats (rand-nth mons) (+ avg-lvl (- (rand-int 8) 4))))
+    (reset! battling? true)
+    (loop [x 5]
+      (if (= 0 x)
+        (swap! journal cons30 "Beat the thing!")
+        (do
+          (swap! battlelog cons5 "Battling the thing!")
+          (recur (dec x)))))
+    (reset! battling? false))
+  )
 
 (defn rnd-event []
-  (swap! journal conslim "Did a thing!"))
+  (swap! journal cons30 "Did a thing!"))
 
 (defn gym []
-  (swap! journal conslim "Fought a lot of things!" ))
+  (swap! journal cons30 "Fought a lot of things!" ))
 
 ;; Main Game Loop
 (with-init!
   (with-interval 1000
-    (when @ready
+    (when (and @ready (not @battling?))
       (case (rand-int 4)
         (0 1) (start-battle)
         (2) (rnd-event)
@@ -83,7 +104,9 @@
    (div :toggle (cell= (not (empty? tname)))
         (text "Name: ~{tname}")
         (br)
-        (text "Anidex: ~{(count anidex)}")
+        (text "Anidex: ~{(count anidex)} out of ~{(count mons)}")
+        (br)
+        (text "Badges: ~{badges} ~{master}")
         (br)
         (text "ID #: ~{(hash tname)}"))
 
@@ -106,6 +129,21 @@
                    (li (b (text "~{(:name mon)}, "))
                        (i (text "Lvl ~{(:lvl mon)} ~{(:type mon)} Animon"))
                        (text " - ATK ~{(:atk mon)}, DEF ~{(:def mon)}, HP ~{(:hp mon)}")))))
+
+   ;; Battles Happen here
+   (div :toggle true
+        (h2 "Battle!")
+        (div :align "right"
+             (text "~{(:name enemy)} - Lvl. ~{(:lvl enemy)}")
+             (br)
+             (progress :value (:currhp @enemy) :max (:hp @enemy))
+             )
+        (div :align "left"
+             (text "~{(:name player)} - Lvl. ~{(:lvl player)}")
+             (br)
+             (progress :value (:currhp @player) :max (:hp @player))
+             )
+        )
 
    ;; The ongoing adventure log
    (div :toggle (cell= ready)
