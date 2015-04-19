@@ -76,7 +76,7 @@
     (do
       (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
       (reset! battling? false))
-    (let [damage (rand-int 100)]
+    (let [damage (rand-int 30)]
       (swap! battlelog cons5 (str "Did " damage " damage to enemy"))
       (swap! enemy hurt-it damage)
       ;(reset! enemy {:currhp 0})
@@ -139,7 +139,7 @@
                        (text " - ATK ~{(:atk mon)}, DEF ~{(:def mon)}, HP ~{(:hp mon)}")))))
 
    ;; Battles Happen here
-   (div :toggle true
+   (div :toggle (cell= battling?)
         (h2 "Battle!")
         (div :align "right"
              (text "~{(:name enemy)} - Lvl. ~{(:lvl enemy)}")
