@@ -2,6 +2,7 @@
   (:require
    [tailrecursion.hoplon.reload :refer [reload-all]]
    [tailrecursion.hoplon.util :refer [capitalize-name]]
+   [clojure.string :refer [lower-case]]
    [mons.table :refer [mons events]]))
 
 (reload-all)
@@ -20,6 +21,7 @@
       nlst)))
 (def cons30 (partial conslim 30))
 (def cons5 (partial conslim 5))
+(def cons6 (partial conslim 6))
 
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s lvl]
@@ -72,17 +74,23 @@
   (reset! battling? true))
 
 (defn continue-battle []
-  (if (<= (:currhp @enemy) 0)
-    (do
-      (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
-      (swap! anidex conj (:name @enemy))
-      (reset! battlelog '())
-      (reset! battling? false))
-    (let [damage (rand-int 30)]
-      (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
-      (swap! enemy hurt-it damage)
-      ;(reset! enemy {:currhp 0})
-      )
+  (cond (<= (:currhp @enemy) 0)
+        (do
+          (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
+          (swap! anidex conj (:name @enemy))
+          (reset! battlelog '())
+          (reset! battling? false))
+        (< 0 (:currhp @enemy) (int (* (:hp @enemy) .05)))
+        (do
+          (swap! journal cons30 (str "I caught a " (:name @enemy) "!"))
+          (swap! anidex conj (:name @enemy))
+          (swap! tparty cons6 [(lower-case (:name @enemy)) (:lvl @enemy)])
+          (reset! battlelog '())
+          (reset! battling? false))
+        :else (let [damage (rand-int 30)]
+                (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
+                (swap! enemy hurt-it damage)
+                )
     ))
 
 (defn rnd-event []

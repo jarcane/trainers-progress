@@ -1,8 +1,10 @@
 # A Trainer's Progress
 
-An idler/incremental game inspired by the "monster trainer" genre.
+An idler game in the style of Progress Quest and Godville, inspired by the "monster trainer" genre.
 
 Created for Ludum Dare 32
+
+Credit to JP Verkamp for the portmanteau tool used to generate the monster names
 
 ## Dependencies
 
@@ -18,9 +20,9 @@ Created for Ludum Dare 32
     $ boot development
     ```
 
-2. Go to [http://localhost:8000][3] in your browser. You should see "Hello, World!".
+2. Go to [http://localhost:8000][3] in your browser. You should see the game running.
 
-3. You're already done.
+3. Name your trainer, and watch them go!
 
 ## License
 
