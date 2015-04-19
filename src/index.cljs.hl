@@ -41,6 +41,9 @@
      :currhp hplvld
      :type type}))
 
+(defn hurt-it [vic dam]
+  (assoc vic :currhp (- (:currhp vic) dam)))
+
 ;; Initial trainer state
 (defc tname "")
 (defc tparty [[(rand-nth mons) (inc (rand-int 10))]])
@@ -74,8 +77,10 @@
       (swap! journal cons30 (str "I defeated a " (:name @enemy) "!"))
       (reset! battling? false))
     (let [damage (rand-int 100)]
-      (swap! battlelog cons5 (str "Did " damage " damage to " (:name @enemy)))
-      (swap! enemy update-in [:currhp] (- (:currhp @enemy) damage)))
+      (swap! battlelog cons5 (str "Did " damage " damage to enemy"))
+      (swap! enemy hurt-it damage)
+      ;(reset! enemy {:currhp 0})
+      )
     ))
 
 (defn rnd-event []
