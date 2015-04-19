@@ -144,12 +144,13 @@
         (div :align "right"
              (text "~{(:name enemy)} - Lvl. ~{(:lvl enemy)}")
              (br)
-             (progress :value (:currhp @enemy) :max (:hp @enemy))
+             (text "~{(:currhp enemy)}/~{(:hp enemy)}")
              )
+        (div :align "center" (text "VS."))
         (div :align "left"
              (text "~{(:name player)} - Lvl. ~{(:lvl player)}")
              (br)
-             (progress :value (:currhp @player) :max (:hp @player))
+             (text "~{(:currhp player)}/~{(:hp player)}")
              )
         (ul (loop-tpl :bindings [log battlelog]
                   (li log)))
