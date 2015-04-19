@@ -23,13 +23,6 @@
 (def cons5 (partial conslim 5))
 (def cons6 (partial conslim 6))
 
-(defn conjlim [lim vec x]
-  (let [nvec (conj vec x)]
-    (if (> (count nvec) lim)
-      (subvec nvec 0 lim)
-      nvec)))
-(def conj6 (partial conjlim 6))
-
 ; Given a string containing a Name, returns a map containing that name's possible stats
 (defn get-stats [s lvl]
   (let [atk (+ 4 (mod (hash s) 16))
@@ -188,7 +181,7 @@
   (title "A Trainer's Progress")
   (link :href "http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/journal/bootstrap.min.css"
         :rel "stylesheet"))
- 
+
   (body
    (h1 "A Trainer's Progress")
 
