@@ -52,13 +52,34 @@
      :kills 0}))
 
 (defn level-up [mon]
-    (get-stats (lower-case (:name mon)) (inc (:lvl mon))))
+  (if (>= (:kills mon) (:lvl mon))
+    (get-stats (lower-case (:name mon)) (inc (:lvl mon)))
+    (assoc mon :kills (inc (:kills mon)))))
 
 (defn get-damage [attr defr plyr?]
-  (int (+ (/ (:lvl attr) 10)
-          (/ (:atk attr) (:def defr))
-          (* (:lvl attr) (+ .5 (rand)))
-          (if plyr? (/ (:lvl attr) 5) 1))))
+  (int (* (+ (/ (:lvl attr) 10)
+             (/ (:atk attr) (:def defr))
+             (* (:lvl attr) (+ .5 (rand)))
+             (if plyr? (/ (:lvl attr) 5) 1))
+          (type-bonus attr defr))))
+
+(defn type-bonus [attk defr]
+  (let [pair? (fn [type1 type2] (and (= type1 (:type attk))
+                                     (= type2 (:type defr))))]
+    (cond
+      (or (pair? "Wood" "Earth")
+          (pair? "Earth" "Water")
+          (pair? "Water" "Fire")
+          (pair? "Fire" "Metal")
+          (pair? "Metal" "Wood"))
+      2
+      (or (pair? "Wood" "Fire")
+          (pair? "Fire" "Earth")
+          (pair? "Earth" "Metal")
+          (pair? "Metal" "Water")
+          (pair? "Water" "Wood"))
+      0.5
+      :else 1))
 
 (defn hurt-it [vic dam]
   (assoc vic :currhp (- (:currhp vic) dam)))
@@ -153,11 +174,11 @@
     (cond
       @battling? (continue-battle)
       (and @ready
-           (not @battling?)) (case (rand-int 8)
+           (not @battling?)) (case (rand-int 7)
                                (0 1 2) (start-battle)
                                (3 4) (rnd-event)
                                (5) (gym)
-                               (6 7) (do
+                               (6) (when (not (= 1 (count @tparty)))
                                      (swap! journal cons30 "Rearranged my party")
                                      (swap! tparty shuffle))))))
 
@@ -206,13 +227,13 @@
    (div :toggle (cell= battling?)
         (h2 "Battle!")
         (div :align "right"
-             (text "~{(:name enemy)} - Lvl. ~{(:lvl enemy)}")
+             (text "~{(:name enemy)} - Lvl. ~{(:lvl enemy)} ~{(:type enemy)}")
              (br)
              (text "~{(:currhp enemy)}/~{(:hp enemy)}")
              )
         (div :align "center" (text "VS."))
         (div :align "left"
-             (text "~{(:name player)} - Lvl. ~{(:lvl player)}")
+             (text "~{(:name player)} - Lvl. ~{(:lvl player)} ~{(:type player)}")
              (br)
              (text "~{(:currhp player)}/~{(:hp player)}")
              )
